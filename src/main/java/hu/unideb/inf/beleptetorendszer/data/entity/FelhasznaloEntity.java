@@ -3,13 +3,14 @@ package hu.unideb.inf.beleptetorendszer.data.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "FELHASZNALO")
 public class FelhasznaloEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "felhnev", length = 90, nullable = false, unique = true)
@@ -22,4 +23,10 @@ public class FelhasznaloEntity {
     private LocalDate szuletesiDatum;
     @Column(length = 10, nullable = true)
     private String nem;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "FELHASZNALO_JOG",
+                joinColumns = @JoinColumn(name = "felh_id"),
+                inverseJoinColumns = @JoinColumn(name = "jog_id"))
+    private Set<JogEntity> jogosultsagok;
 }
