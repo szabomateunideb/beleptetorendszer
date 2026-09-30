@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/felhasznalo")
@@ -34,9 +35,13 @@ public class FelhasznaloController {
     @GetMapping("/init")
     public FelhasznaloEntity saveMock(){
         JogEntity jogEntity = new JogEntity();
+        jogEntity.setNev("FELHASZNALO");
+        jogEntity.setLeiras("Minden felhasználó rendelkezik ezzel a joggal");
+        jogEntity = jogRepo.save(jogEntity);
 
 
         FelhasznaloEntity entity = new FelhasznaloEntity();
+        entity.setJogosultsagok(Set.of(jogEntity));
         entity.setEmail("xy@mail.com");
         entity.setFelhasznalonev("jozsi01");
         entity.setJelszo("password0");
