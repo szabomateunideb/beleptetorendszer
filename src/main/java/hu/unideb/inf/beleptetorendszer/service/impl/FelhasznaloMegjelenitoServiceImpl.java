@@ -4,6 +4,7 @@ import hu.unideb.inf.beleptetorendszer.data.entity.FelhasznaloEntity;
 import hu.unideb.inf.beleptetorendszer.data.repository.FelhasznaloRepository;
 import hu.unideb.inf.beleptetorendszer.service.FelhasznaloMegjelenitoService;
 import hu.unideb.inf.beleptetorendszer.service.dto.FelhasznaloDisplayDto;
+import hu.unideb.inf.beleptetorendszer.service.mapper.FelhasznaloMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ public class FelhasznaloMegjelenitoServiceImpl
     implements FelhasznaloMegjelenitoService {
 
     private final FelhasznaloRepository repo;
+    private final FelhasznaloMapper mapper;
 
     @Override
     public List<FelhasznaloDisplayDto> findAllFelhasznalo() {
-        List<FelhasznaloEntity> entities = repo.findAll();
+        return mapper.entityListToDisplayDtoList(repo.findAll());
+        /*List<FelhasznaloEntity> entities = repo.findAll();
         List<FelhasznaloDisplayDto> dtos = new ArrayList<>();
         for (FelhasznaloEntity entity : entities) {
             FelhasznaloDisplayDto dto = new FelhasznaloDisplayDto();
@@ -28,7 +31,7 @@ public class FelhasznaloMegjelenitoServiceImpl
             dto.setSzuletesiDatum(entity.getSzuletesiDatum());
             dtos.add(dto);
         }
-        return dtos;
+        return dtos;*/
     }
 
     @Override
