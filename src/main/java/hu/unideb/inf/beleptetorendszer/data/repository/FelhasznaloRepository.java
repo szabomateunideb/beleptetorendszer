@@ -23,9 +23,9 @@ public interface FelhasznaloRepository
     Set<FelhasznaloEntity> findAllByJogosultsagok_Empty();
 
     //JPQL
-    @Query("SELECT f from FelhasznaloEntity f WHERE f.nem=?1 " +
+    /*@Query("SELECT f from FelhasznaloEntity f WHERE f.nem=?1 " +
             "and f.jogosultsagok.size>0")
-    List<FelhasznaloEntity> findByJpql(String nem);
+    List<FelhasznaloEntity> findByJpql(String nem);*/
 
     //native query
     @Query(value = "SELECT * FROM FELHASZNALO where nev = ?1",
