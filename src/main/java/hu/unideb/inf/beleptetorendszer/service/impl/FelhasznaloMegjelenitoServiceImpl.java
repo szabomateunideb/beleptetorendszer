@@ -21,21 +21,18 @@ public class FelhasznaloMegjelenitoServiceImpl
 
     @Override
     public List<FelhasznaloDisplayDto> findAllFelhasznalo() {
+        repo.findAll()
+                .forEach(x ->
+                        System.out.println(x.getFelhasznalonev()));
+        mapper.entityListToDisplayDtoList(repo.findAll())
+                .forEach(x ->
+                        System.out.println(x.getFelhasznalonev()));
         return mapper.entityListToDisplayDtoList(repo.findAll());
-        /*List<FelhasznaloEntity> entities = repo.findAll();
-        List<FelhasznaloDisplayDto> dtos = new ArrayList<>();
-        for (FelhasznaloEntity entity : entities) {
-            FelhasznaloDisplayDto dto = new FelhasznaloDisplayDto();
-            dto.setFelhasznalonev(entity.getFelhasznalonev());
-            dto.setNem(entity.getNem());
-            dto.setSzuletesiDatum(entity.getSzuletesiDatum());
-            dtos.add(dto);
-        }
-        return dtos;*/
     }
 
     @Override
     public FelhasznaloDisplayDto findFelhasznaloByNev(String nev) {
-        return null;
+        return mapper.entityToDisplayDto(repo.findByNative(nev));
+
     }
 }

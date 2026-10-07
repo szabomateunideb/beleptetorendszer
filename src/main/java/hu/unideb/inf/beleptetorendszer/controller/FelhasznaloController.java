@@ -4,12 +4,15 @@ import hu.unideb.inf.beleptetorendszer.data.entity.FelhasznaloEntity;
 import hu.unideb.inf.beleptetorendszer.data.entity.JogEntity;
 import hu.unideb.inf.beleptetorendszer.data.repository.FelhasznaloRepository;
 import hu.unideb.inf.beleptetorendszer.data.repository.JogRepository;
+import hu.unideb.inf.beleptetorendszer.service.FelhasznaloMegjelenitoService;
+import hu.unideb.inf.beleptetorendszer.service.dto.FelhasznaloDisplayDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,11 +26,19 @@ public class FelhasznaloController {
     //constructor injection
     private final FelhasznaloRepository repo;
     private final JogRepository jogRepo;
+    private final FelhasznaloMegjelenitoService megjelenitoService;
 
     public FelhasznaloController(FelhasznaloRepository repo
-            , JogRepository jogRepo) {
+            , JogRepository jogRepo
+            , FelhasznaloMegjelenitoService megjelenitoService) {
         this.repo = repo;
         this.jogRepo = jogRepo;
+        this.megjelenitoService = megjelenitoService;
+    }
+
+    @GetMapping
+    public List<FelhasznaloDisplayDto> findAll() {
+        return megjelenitoService.findAllFelhasznalo();
     }
 
     //TODO uni-directional, bidirection
