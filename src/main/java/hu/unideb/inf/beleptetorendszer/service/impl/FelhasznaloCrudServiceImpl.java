@@ -1,6 +1,7 @@
 package hu.unideb.inf.beleptetorendszer.service.impl;
 
 import hu.unideb.inf.beleptetorendszer.data.entity.FelhasznaloEntity;
+import hu.unideb.inf.beleptetorendszer.data.entity.JogEntity;
 import hu.unideb.inf.beleptetorendszer.data.repository.FelhasznaloRepository;
 import hu.unideb.inf.beleptetorendszer.service.FelhasznaloCrudService;
 import hu.unideb.inf.beleptetorendszer.service.dto.FelhasznaloSaveDto;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -47,8 +49,12 @@ public class FelhasznaloCrudServiceImpl
 
     @Override
     public FelhasznaloSaveDto update(FelhasznaloSaveDto felhasznaloSaveDto) {
-        FelhasznaloEntity e = fmapper
-                .entityDtoToEntity(felhasznaloSaveDto);
+        FelhasznaloEntity e =
+                frepo.getReferenceById(felhasznaloSaveDto.getId());
+
+        Set<JogEntity> j = e.getJogosultsagok();
+        e = fmapper.entityDtoToEntity(felhasznaloSaveDto);
+        e.setJogosultsagok(j);
 
         return fmapper.entityToSaveDto(frepo.save(e));
 

@@ -2,6 +2,7 @@ package hu.unideb.inf.beleptetorendszer.controller;
 
 import hu.unideb.inf.beleptetorendszer.service.FelhasznaloCrudService;
 import hu.unideb.inf.beleptetorendszer.service.dto.FelhasznaloSaveDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ public class FelhasznaloCrudController {
     private final FelhasznaloCrudService fcService;
 
     @PostMapping
-    FelhasznaloSaveDto save(@RequestBody FelhasznaloSaveDto dto) {
+    FelhasznaloSaveDto save(@Valid
+                            @RequestBody FelhasznaloSaveDto dto) {
         return fcService.save(dto);
     }
 
@@ -40,7 +42,8 @@ public class FelhasznaloCrudController {
     }
 
     @PutMapping
-    FelhasznaloSaveDto update(@RequestBody FelhasznaloSaveDto dto) {
+    FelhasznaloSaveDto update(@Valid
+                              @RequestBody FelhasznaloSaveDto dto) {
         return fcService.update(dto);
     }
 
@@ -50,7 +53,8 @@ public class FelhasznaloCrudController {
     }
 
     @DeleteMapping
-    ResponseEntity delete(@RequestBody FelhasznaloSaveDto dto) {
+    ResponseEntity delete(@Valid
+                          @RequestBody FelhasznaloSaveDto dto) {
         fcService.deleteByFelhasznalonev(dto.getFelhasznalonev());
         return ResponseEntity.noContent().build();
     }
