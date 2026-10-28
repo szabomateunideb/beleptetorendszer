@@ -32,4 +32,7 @@ public interface FelhasznaloRepository
     nativeQuery = true)
     FelhasznaloEntity findByNative(String nev);
 
+    void deleteByFelhasznalonev(String felhasznalonev);
+
+    void deleteByEmail(String email);
 }

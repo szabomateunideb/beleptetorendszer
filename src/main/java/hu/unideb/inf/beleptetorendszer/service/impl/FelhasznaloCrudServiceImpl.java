@@ -29,36 +29,43 @@ public class FelhasznaloCrudServiceImpl
 
     @Override
     public FelhasznaloSaveDto findById(Long id) {
-        return null;
+        return fmapper.entityToSaveDto(frepo.getReferenceById(id));
     }
 
     @Override
     public List<FelhasznaloSaveDto> findAll() {
-        return List.of();
+        return fmapper.entityListToSaveDtoList(frepo.findAll());
     }
 
     @Override
     public FelhasznaloSaveDto findByFelhasznalonev(String felhasznalonev) {
-        return null;
+        return fmapper.entityToSaveDto(
+                frepo.findByFelhasznalonev(felhasznalonev)
+        );
+
     }
 
     @Override
     public FelhasznaloSaveDto update(FelhasznaloSaveDto felhasznaloSaveDto) {
-        return null;
+        FelhasznaloEntity e = fmapper
+                .entityDtoToEntity(felhasznaloSaveDto);
+
+        return fmapper.entityToSaveDto(frepo.save(e));
+
     }
 
     @Override
     public void delete(Long id) {
-
+        frepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-
+        frepo.deleteAll();
     }
 
     @Override
     public void deleteByFelhasznalonev(String felhasznalonev) {
-
+        frepo.deleteByFelhasznalonev(felhasznalonev);
     }
 }
