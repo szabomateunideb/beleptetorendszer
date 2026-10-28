@@ -3,6 +3,8 @@ package hu.unideb.inf.beleptetorendszer.controller;
 import hu.unideb.inf.beleptetorendszer.service.FelhasznaloCrudService;
 import hu.unideb.inf.beleptetorendszer.service.dto.FelhasznaloSaveDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,4 +38,23 @@ public class FelhasznaloCrudController {
     FelhasznaloSaveDto findOneById(@PathVariable Long id){
         return fcService.findById(id);
     }
+
+    @PutMapping
+    FelhasznaloSaveDto update(@RequestBody FelhasznaloSaveDto dto) {
+        return fcService.update(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteById(@PathVariable Long id){
+        fcService.delete(id);
+    }
+
+    @DeleteMapping
+    ResponseEntity delete(@RequestBody FelhasznaloSaveDto dto) {
+        fcService.deleteByFelhasznalonev(dto.getFelhasznalonev());
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/felhasznalok")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteAll() {fcService.deleteAll();}
 }

@@ -36,7 +36,7 @@ public class FelhasznaloController {
         this.megjelenitoService = megjelenitoService;
     }
 
-    @GetMapping
+    @GetMapping("/felhasznalok")
     public List<FelhasznaloDisplayDto> findAll() {
         return megjelenitoService.findAllFelhasznalo();
     }
