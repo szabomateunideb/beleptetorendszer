@@ -23,6 +23,6 @@ public class FelhasznaloSaveDto {
     @NotNull
     @Past
     private LocalDate szuletesiDatum;
-    @Max(10)
+    @Size(min = 0, max = 10)
     private String nem;
 }
