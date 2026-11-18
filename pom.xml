@@ -104,15 +104,15 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.13.0</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 		<!-- Source: https://mvnrepository.com/artifact/tools.jackson.datatype/jackson-datatype-jsr310 -->
-		<dependency>
+		<!--<dependency>
 			<groupId>tools.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 			<version>3.0.0-rc2</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 
 	<build>

@@ -26,9 +26,9 @@ public class AuthController {
     }
 
     @PostMapping("/bejelentkezes")
-    public void bejelentkezes(
+    public String bejelentkezes(
             @Valid
             @RequestBody FelhasznaloLoginDto dto){
-        authService.login(dto);
+        return authService.login(dto);
     }
 }

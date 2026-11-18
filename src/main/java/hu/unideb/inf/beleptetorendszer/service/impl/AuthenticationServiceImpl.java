@@ -27,6 +27,7 @@ public class AuthenticationServiceImpl {
     private final AuthenticationManager authManager;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
 
     public FelhasznaloSaveDto register(FelhasznaloSaveDto dto) {
@@ -48,7 +49,7 @@ public class AuthenticationServiceImpl {
         return fmapper.entityToSaveDto(e);
     }
 
-    public void login(FelhasznaloLoginDto dto) {
+    public String login(FelhasznaloLoginDto dto) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -56,6 +57,10 @@ public class AuthenticationServiceImpl {
                 )
         );
         context.setAuthentication(auth);
+        SecurityContextHolder.setContext(context);
+
+        var user = repo.findByFelhasznalonev(dto.getFelhasznalonev());
+        return tokenService.generateToken(user);
 
     }
 }

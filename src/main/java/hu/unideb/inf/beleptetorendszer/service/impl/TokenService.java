@@ -1,8 +1,12 @@
 package hu.unideb.inf.beleptetorendszer.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.jackson.io.JacksonDeserializer;
+import io.jsonwebtoken.jackson.io.JacksonSerializer;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,13 +22,17 @@ import java.util.function.Function;
 public class TokenService {
 
     private SecretKey getSecretKey() {
-        byte[] keyBytes = Decoders.BASE64.decode("gjfbvgggfffbffgfdccghcvghhcvtf55gf4f");
+        byte[] keyBytes = Decoders.BASE64.decode("gjfsdfjhsjkfhsekfhsejkfhsejkfhseuifhseukhfsukehfkseubvgggfffbffgfdccghcvghhcvtf55gf4f");
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private <T> T extractClaim(String token
             , Function<Claims, T> claimsResolver) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         final Claims claims = Jwts.parser()
+                .json(new JacksonDeserializer<>(mapper))
                 .verifyWith(getSecretKey())
                 .build()
                 .parseClaimsJws(token)
@@ -37,15 +45,18 @@ public class TokenService {
         return expiration.before(new Date());
     }
 
-    private String generateToken(UserDetails user){
+    public String generateToken(UserDetails user){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         Map<String, Object> claims = new HashMap<>();
         user.getAuthorities().forEach(a ->
                 claims.put(a.getAuthority(), a));
 
         return Jwts.builder()
+                .json(new JacksonSerializer<>(mapper))
                 .claims(claims)
                 .subject(user.getUsername())
-                .issuedAt(Calendar.getInstance().getTime())
+                .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis()+150000))
                 .signWith(getSecretKey())
                 .compact();
